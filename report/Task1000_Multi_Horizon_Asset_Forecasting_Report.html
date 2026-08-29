@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Task 1000: Multi-Horizon Asset Price Forecasting</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 30px;
+            line-height: 1.6;
+            color: #222;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+        }
+
+        h2 {
+            margin-top: 45px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 8px;
+        }
+
+        h3 {
+            margin-top: 30px;
+        }
+
+        h4 {
+            margin-bottom: 5px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto 30px auto;
+        }
+
+        .figure-group {
+            margin-bottom: 40px;
+        }
+
+        .analysis-box {
+            margin: 15px 0 30px 0;
+            padding: 15px 20px;
+            background-color: #f7f7f7;
+            border-left: 4px solid #888;
+        }
+
+        .note {
+            color: #666;
+            font-style: italic;
+        }
+
+        footer {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+
+<body>
+
+<h1>Task 1000: Multi-Horizon Asset Price Forecasting</h1>
+
+<p>
+    <strong>Full Project Report</strong>
+</p>
+
+<p>
+    This report documents the complete workflow of Task 1000, from historical
+    market data preparation and exploratory analysis to financial feature
+    engineering, multi-horizon forecasting, model comparison, uncertainty
+    analysis, and final price estimates.
+</p>
+
+<p>
+    The project focuses on Tesla (TSLA), Alphabet (GOOGL), Bitcoin (BTCUSD),
+    Ethereum (ETHUSD), and QQQ. The analysis is designed to compare equity and
+    cryptocurrency market behaviour across multiple forecasting horizons.
+</p>
+
+
+<h2>1. Project Objective</h2>
+
+<p>
+    The objective of this project is to forecast the future prices of TSLA,
+    GOOGL, BTCUSD, and ETHUSD across seven horizons: 30 days, 3 months,
+    6 months, 1 year, 3 years, 5 years, and 10 years.
+</p>
+
+<p>
+    Two forecasting approaches will be compared: ARIMA as a traditional
+    time-series benchmark and Random Forest Regressor as a feature-driven
+    machine learning model.
+</p>
+
+<p>
+    The project also incorporates momentum and mean reversion analysis,
+    volatility regime analysis, and Monte Carlo simulation to assess
+    forecast uncertainty and cross-asset differences.
+</p>
+
+
+<h2>2. Data Sources</h2>
+
+<p>
+    Historical daily market data were collected from the following sources:
+</p>
+
+<ul>
+    <li>TSLA: Stooq</li>
+    <li>GOOGL: Stooq</li>
+    <li>QQQ: Stooq</li>
+    <li>BTCUSD: Stooq</li>
+    <li>ETHUSD: CoinMarketCap</li>
+</ul>
+
+<p>
+    The datasets contain daily Open, High, Low, Close, and Volume information
+    where available. BTCUSD from Stooq does not include a Volume field, so
+    volume-based features are treated as optional for that asset.
+</p>
+
+<h2>3. Report Structure</h2>
+
+<p>
+    The report is organized into the following stages:
+</p>
+
+<ul>
+    <li>Exploratory Data Analysis</li>
+    <li>Financial Feature Engineering</li>
+    <li>Multi-Horizon Target Construction</li>
+    <li>ARIMA Forecasting</li>
+    <li>Random Forest Regression</li>
+    <li>Model Evaluation and Comparison</li>
+    <li>Volatility Regime Analysis</li>
+    <li>Monte Carlo Simulation</li>
+    <li>Cross-Asset Comparison</li>
+    <li>Final Multi-Horizon Price Forecasts</li>
+    <li>Limitations and Conclusion</li>
+</ul>
+
+
+<h2>4. Exploratory Data Analysis</h2>
+
+<p>
+    The purpose of the EDA stage is to identify major differences in historical
+    price behaviour, return characteristics, volatility, and cross-asset
+    relationships before constructing predictive features and developing the
+    forecasting models.
+</p>
+
+
+<!-- ====================================================== -->
+<!-- 4.1. Historical Price Analysis -->
+<!-- ====================================================== -->
+
+<h2>4.1 Historical Price Analysis</h2>
+
+<p>
+    This section examines the long-term price behaviour of the four forecast
+    assets and the QQQ benchmark.
+</p>
+
+
+<div class="figure-group">
+
+    <h3>4.1.1 Tesla (TSLA)</h3>
+
+    <img
+        src="../figures/TSLA_historical_close_price.png"
+        alt="TSLA Historical Close Price"
+    >
+
+<p>
+        TSLA traded at relatively low price levels with gradual appreciation between 2010 and 2019.
+        A clear regime shift appeared around 2020, when the stock entered a much stronger upward trend  
+        accompanied by substantially larger price swings.The post-2020 period was characterized by repeated 
+        rallies toward new highs followed by substantial corrections.
+        The larger and more frequent price swings suggest higher forecasting uncertainty and a greater 
+        likelihood of regime-dependent behaviour.
+</p>
+
+</div>
+<div class="figure-group">
+
+    <h3>1.2 Alphabet (GOOGL)</h3>
+
+    <img
+        src="../figures/GOOGL_historical_close_price.png"
+        alt="GOOGL Historical Close Price"
+    >
+
+<p>
+        GOOGL showed steady growth over the long term, despite a temporary drawdown between 2022 to 2023. 
+        Its price path is relatively smooth, with a noticeable acceleration in the upward trend after 2024.
+        Compared with TSLA, GOOGL exhibits a more persistent and smoother long-term trend.
+   
+</p>  
+
+</div>
+
+
+<div class="figure-group">
+
+    <h3>1.3 Bitcoin (BTCUSD)</h3>
+
+    <img
+        src="../figures/BTCUSD_historical_close_price.png"
+        alt="BTCUSD Historical Close Price"
+    >
+
+<p>
+        BTCUSD traded at low price level for an extended period before it entered a more pronounced growth 
+        phase around 2017-2018. After 2018, its price fluctuated and encountered several bloom-and-bust cycle.
+        BTCUSD exhibits strong cyclical behavio. Therfore, forecasting BTCUSD mat require models that account 
+        for changing markert regimes, particularly across long horizons.
+</p>  
+    
+</div>
+
+
+<div class="figure-group">
+
+    <h3>1.4 Ethereum (ETHUSD)</h3>
+
+    <img
+        src="../figures/ETHUSD_historical_close_price.png"
+        alt="ETHUSD Historical Close Price"
+    >
+
+<p>
+        ETHUSD remained at relatively low price levels during its early years before entering a major growth 
+        phase around 2020–2021.This was followed by a substantial drawdown in 2022, after which the asset 
+        gradually recovered and entered another strong upward phase toward 2025–2026.Compared with BTCUSD, 
+        ETHUSD shows similarly cyclical behaviour but with more pronounced reversals between expansion and
+        correction phases.These repeated boom-and-bust patterns suggest that ETHUSD forecasting is likely to
+        be highly regime-dependent, particularly over longer horizons.
+</p>
+</div>
+
+
+<div class="figure-group">
+
+    <h3>1.5 QQQ Benchmark</h3>
+
+    <img
+        src="../figures/QQQ_historical_close_price.png"
+        alt="QQQ Historical Close Price"
+    >
+<p>
+    QQQ exhibited a relatively persistent long-term upward trend, with gradual appreciation over most of the 
+    sample period. The most notable interruption occurred around 2022, when the index experienced a clear 
+    drawdown before recovering and accelerating again from 2023 onward. Compared with TSLA and the 
+    cryptocurrency assets, QQQ follows a smoother and more continuous price path with fewer extreme regime
+    shifts.This suggests that trend persistence and momentum-based features may provide more stable 
+    information for forecasting QQQ-related market movements.
+</p>
+
+</div>
+
+
+<!-- ====================================================== -->
+<!-- 4.1.2 Daily Return Analysis -->
+<!-- ====================================================== -->
+
+<h3>4.1.2 Daily Return Analysis</h3>
+
+<p>
+    Daily returns are used to examine short-term price fluctuations,
+    extreme market movements, and volatility clustering across the selected assets.
+</p>
+
+
+<!-- ====================================================== -->
+<!-- Equity Returns -->
+<!-- ====================================================== -->
+
+<h4>Equity Returns: TSLA, GOOGL and QQQ</h4>
+
+
+<div class="figure-group">
+
+    <h5>Tesla Daily Returns</h5>
+
+    <img
+        src="../figures/TSLA_daily_return.png"
+        alt="TSLA Daily Return"
+    >
+
+</div>
+
+
+<div class="figure-group">
+
+    <h5>Alphabet Daily Returns</h5>
+
+    <img
+        src="../figures/GOOGL_daily_return.png"
+        alt="GOOGL Daily Return"
+    >
+
+</div>
+
+
+<div class="figure-group">
+
+    <h5>QQQ Daily Returns</h5>
+
+    <img
+        src="../figures/QQQ_daily_return.png"
+        alt="QQQ Daily Return"
+    >
+
+</div>
+
+
+<div class="analysis-box">
+
+<p>
+    Within the equity group, TSLA shows the largest daily return fluctuations,
+    while GOOGL and especially QQQ exhibit relatively narrower return ranges.
+    All three assets show evidence of volatility clustering, suggesting that
+    market risk changes through time rather than remaining constant.
+    These patterns suggest that rolling volatility and volatility regime
+    indicators may be useful features for the forecasting models.
+</p>
+
+</div>
+
+
+<!-- ====================================================== -->
+<!-- Cryptocurrency Returns -->
+<!-- ====================================================== -->
+
+<h4>Cryptocurrency Returns: BTCUSD and ETHUSD</h4>
+
+
+<div class="figure-group">
+
+    <h5>Bitcoin Daily Returns</h5>
+
+    <img
+        src="../figures/BTCUSD_daily_return.png"
+        alt="BTCUSD Daily Return"
+    >
+
+</div>
+
+
+<div class="figure-group">
+
+    <h5>Ethereum Daily Returns</h5>
+
+    <img
+        src="../figures/ETHUSD_daily_return.png"
+        alt="ETHUSD Daily Return"
+    >
+
+</div>
+
+
+<div class="analysis-box">
+
+<p>
+    BTCUSD and ETHUSD exhibit more extreme daily return movements than the equity group,
+    particularly during their earlier trading periods.
+    Both assets contain substantial positive and negative spikes, with ETHUSD showing
+    especially pronounced two-sided fluctuations.
+    The magnitude of daily return movements appears to moderate over time, although both
+    cryptocurrencies remain highly volatile.
+    These patterns suggest that volatility regime analysis may be particularly relevant
+    for cryptocurrency forecasting.
+</p>
+
+</div>
+
+    
+<!-- ====================================================== -->
+<!-- 4.1.3 Daily Return Distribution -->
+<!-- ====================================================== -->
+
+<h3>4.1.3 Daily Return Distribution</h3>
+
+<p>
+    Return distributions are examined to compare dispersion, tail behaviour,
+    and the frequency of extreme positive and negative returns across the selected assets.
+</p>
+
+
+<!-- ====================================================== -->
+<!-- Equity Return Distributions -->
+<!-- ====================================================== -->
+
+<h4>Equity Return Distributions: TSLA, GOOGL and QQQ</h4>
+
+
+<div class="figure-group">
+
+    <h5>Tesla Return Distribution</h5>
+
+    <img
+        src="../figures/TSLA_daily_return_distribution.png"
+        alt="TSLA Daily Return Distribution"
+    >
+
+</div>
+
+
+<div class="figure-group">
+
+    <h5>Alphabet Return Distribution</h5>
+
+    <img
+        src="../figures/GOOGL_daily_return_distribution.png"
+        alt="GOOGL Daily Return Distribution"
+    >
+
+</div>
+
+
+<div class="figure-group">
+
+    <h5>QQQ Return Distribution</h5>
+
+    <img
+        src="../figures/QQQ_daily_return_distribution.png"
+        alt="QQQ Daily Return Distribution"
+    >
+
+</div>
+
+
+<div class="analysis-box">
+
+<p>
+    Within the equity group, QQQ shows the most concentrated return distribution around zero, while TSLA 
+    exihibits the widest dispersion. TSLA also displays more pronounced positive and negative tails, 
+    suggesting higher tail risk.Although all three distribution are centered near zero, they appear more 
+    peaked and heavy-tailed than a normal distributnion. This suggests that extreme return risk should be 
+    considered when evaluating forecast uncertainty.
+</p>
+
+    
+</div>
+
+
+<!-- ====================================================== -->
+<!-- Cryptocurrency Return Distributions -->
+<!-- ====================================================== -->
+
+<h4>Cryptocurrency Return Distributions: BTCUSD and ETHUSD</h4>
+
+
+<div class="figure-group">
+
+    <h5>Bitcoin Return Distribution</h5>
+
+    <img
+        src="../figures/BTCUSD_daily_return_distribution.png"
+        alt="BTCUSD Daily Return Distribution"
+    >
+
+</div>
+
+
+<div class="figure-group">
+
+    <h5>Ethereum Return Distribution</h5>
+
+    <img
+        src="../figures/ETHUSD_daily_return_distribution.png"
+        alt="ETHUSD Daily Return Distribution"
+    >
+
+</div>
+
+
+<div class="analysis-box">
+
+<p>
+    BTCUSD and ETHUSD both show return distributions concentrated around zero.
+    Compared with the equity group, however, both cryptocurrencies exhibit substantially wider dispersion and
+    more pronounced tail behaviour.ETHUSD appears relatively symmetric around zero, while both distributions 
+    are sharply peaked with extreme observations in their tails. BTCUSD contains particularly large positive-
+    return observations, while ETHUSD also exhibits substantial downside extremes.These characteristics 
+    suggest greater forecast uncertainty because cryptocurrency returns are more exposed to tail risk and 
+    changing volatility regimes.
+</p>
+
+</div>
+
+
+<!-- ====================================================== -->
+<!-- 4.1.4 Cumulative Return Analysis -->
+<!-- ====================================================== -->
+
+<h3>4.1.4 Cumulative Return Analysis</h3>
+
+<p>
+    Cumulative returns provide a standardized comparison of long-term
+    investment performance across assets with different absolute price levels.
+    For each asset, the analysis assumes an initial investment of $1 on the
+    first available trading day in its historical dataset and tracks how that
+    investment would have grown over time.
+</p>
+
+
+<img
+    src="../figures/cumulative_return_comparison_log.png"
+    alt="Cumulative Return Comparison"
+>
+
+
+<div class="analysis-box">
+
+    <h4>Key Observations</h4>
+
+    <p>
+        BTCUSD shows the strongest long-term wealth creation among the selected assets,
+        meaning that an initial $1 investment at the beginning of its available historical
+        period would have grown substantially more than in the other assets.
+        ETHUSD follows a broadly similar growth pattern, with rapid appreciation accompanied
+        by substantial drawdowns. By comparison, GOOGL and QQQ exhibit smoother and more
+        persistent long-term growth paths, while TSLA shows greater fluctuations within the
+        equity group.
+    </p>
+
+    <h4>Log-Scale Interpretation</h4>
+
+    <p>
+        A logarithmic scale makes it easier to compare cumulative growth paths across assets
+        with substantially different return magnitudes. On a conventional linear scale, the
+        much larger cumulative growth of BTCUSD and ETHUSD would compress the equity series
+        near the bottom of the chart, making their long-term movements difficult to observe.
+        The log scale therefore provides a clearer comparison of proportional growth across
+        all five assets.
+    </p>
+
+    <h4>Risk-Return Implications</h4>
+
+    <p>
+        The higher cumulative growth of BTCUSD and ETHUSD is accompanied by larger price
+        fluctuations and deeper drawdowns, indicating a more pronounced risk-return trade-off.
+        GOOGL and QQQ demonstrate more stable long-term wealth accumulation, while TSLA
+        occupies an intermediate position, with lower fluctuations than the cryptocurrencies
+        but greater volatility than the other equity assets.
+    </p>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- 4.1.5 20-Day Rolling Volatility Analysis -->
+<!-- ====================================================== -->
+
+<h3>4.1.5 20-Day Rolling Volatility Analysis</h3>
+
+<p>
+    Twenty-day rolling volatility measures how short-term market risk changes
+    over time and helps identify periods of relatively high and low volatility.
+</p>
+
+
+<!-- ====================================================== -->
+<!-- Equity Rolling Volatility -->
+<!-- ====================================================== -->
+
+<h4>Equity Rolling Volatility: TSLA, GOOGL and QQQ</h4>
+
+<div class="figure-group">
+
+    <h5>Tesla 20-Day Rolling Volatility</h5>
+
+    <img
+        src="../figures/TSLA_20D_rolling_volatility.png"
+        alt="TSLA 20-Day Rolling Volatility"
+    >
+
+</div>
+
+
+<div class="figure-group">
+
+    <h5>Alphabet 20-Day Rolling Volatility</h5>
+
+    <img
+        src="../figures/GOOGL_20D_rolling_volatility.png"
+        alt="GOOGL 20-Day Rolling Volatility"
+    >
+
+</div>
+
+
+<div class="figure-group">
+
+    <h5>QQQ 20-Day Rolling Volatility</h5>
+
+    <img
+        src="../figures/QQQ_20D_rolling_volatility.png"
+        alt="QQQ 20-Day Rolling Volatility"
+    >
+
+</div>
+
+
+<div class="analysis-box">
+
+<p>
+    TSLA shows the highest overall volatility within the equity group, with its
+    20-day rolling volatility generally ranging between 2% and 5% and several
+    peaks exceeding 8%. GOOGL generally remains at a lower volatility level,
+    often around 1%–2%, although it experiences several pronounced volatility
+    spikes. QQQ typically exhibits the lowest volatility within the equity group,
+    but shows substantial spikes during periods of broader market stress.
+    All three assets exhibit clear volatility clustering, although elevated-volatility
+    periods occur at different points in time. The repeated transitions between
+    low- and high-volatility periods indicate that volatility is time-varying
+    rather than constant, supporting the use of rolling volatility and volatility
+    regime indicators as forecasting features.
+</p>
+    
+</div>
+
+
+<!-- ====================================================== -->
+<!-- Cryptocurrency Rolling Volatility -->
+<!-- ====================================================== -->
+
+<h4>Cryptocurrency Rolling Volatility: BTCUSD and ETHUSD</h4>
+
+<div class="figure-group">
+
+    <h5>Bitcoin 20-Day Rolling Volatility</h5>
+
+    <img
+        src="../figures/BTCUSD_20D_rolling_volatility.png"
+        alt="BTCUSD 20-Day Rolling Volatility"
+    >
+
+</div>
+
+
+<div class="figure-group">
+
+    <h5>Ethereum 20-Day Rolling Volatility</h5>
+
+    <img
+        src="../figures/ETHUSD_20D_rolling_volatility.png"
+        alt="ETHUSD 20-Day Rolling Volatility"
+    >
+
+</div>
+
+
+<div class="analysis-box">
+
+<p>
+    BTCUSD and ETHUSD both exhibit substantially higher rolling volatility than
+    the equity assets, particularly during their earlier trading periods.
+    ETHUSD reaches the highest volatility levels overall, while BTCUSD also shows
+    several pronounced spikes above its typical range. Over time, both assets
+    appear to experience a gradual moderation in volatility, although repeated
+    high-volatility episodes remain visible. This pattern suggests that
+    cryptocurrency risk is strongly regime-dependent and that volatility-related
+    features may be especially important for forecasting these assets.
+</p>
+    
+</div>
+
+    
+<!-- ====================================================== -->
+<!-- 4.1.6 Cross-Asset Correlation Analysis -->
+<!-- ====================================================== -->
+
+<h3>4.1.6 Cross-Asset Correlation Analysis</h3>
+
+<p>
+    Daily return correlations are used to examine the extent to which
+    the selected assets move together and to identify potential diversification
+    relationships across asset classes.
+</p>
+
+<img
+    src="../figures/cross_asset_correlation.png"
+    alt="Cross-Asset Daily Return Correlation"
+>
+
+<div class="analysis-box">
+
+    <h4>Equity Relationships</h4>
+
+    <p>
+        Within the equity group, GOOGL shows the strongest relationship with QQQ,
+        with a correlation of 0.70, indicating that its daily returns move relatively
+        closely with the broader growth-oriented equity benchmark.
+        TSLA has a moderate correlation of 0.50 with QQQ, while its correlation with
+        GOOGL is lower at 0.33. This suggests that TSLA is influenced by broader market
+        conditions but also exhibits more idiosyncratic price behaviour.
+    </p>
+
+    <h4>Cryptocurrency Relationships</h4>
+
+    <p>
+        BTCUSD and ETHUSD have a correlation of 0.51, indicating a moderate positive
+        relationship between the two cryptocurrency assets.
+        This suggests that they are partly driven by common crypto-market conditions,
+        while still retaining asset-specific return behaviour.
+    </p>
+
+    <h4>Equity vs Cryptocurrency</h4>
+
+    <p>
+        Correlations between the equity and cryptocurrency groups are generally low,
+        ranging from approximately 0.10 to 0.25. These weaker cross-asset relationships
+        suggest potential diversification benefits, since equity and cryptocurrency
+        returns do not consistently move together.
+        From a forecasting perspective, the differences in correlation structure also
+        indicate that market-relative features may have different predictive value
+        across asset classes.
+    </p>
+
+</div>
+
+    
+<!-- ====================================================== -->
+<!-- 4.1.7 Overall EDA Findings -->
+<!-- ====================================================== -->
+
+<h3>4.1.7 Overall EDA Findings</h3>
+
+<div class="analysis-box">
+
+    <p>
+        The exploratory analysis highlights clear differences in growth patterns,
+        risk characteristics, and cross-asset relationships across the selected assets.
+        Cryptocurrency assets generally exhibit faster long-term wealth creation but
+        also experience larger drawdowns, stronger volatility regimes, and more pronounced
+        extreme returns. The equity group follows comparatively smoother growth paths,
+        although TSLA remains substantially more volatile than GOOGL and QQQ.
+    </p>
+
+    <ul>
+        <li>
+            <strong>Growth Pattern:</strong>
+            BTCUSD and ETHUSD show stronger long-term growth but also more pronounced
+            boom-and-bust cycles and deeper drawdowns. GOOGL and QQQ exhibit smoother
+            and more persistent long-term growth, while TSLA shows greater fluctuations
+            within the equity group.
+        </li>
+
+        <li>
+            <strong>Risk Structure:</strong>
+            Cryptocurrency returns display wider dispersion, more substantial tail risk,
+            and more frequent extreme observations. Rolling volatility also shows repeated
+            transitions between low- and high-volatility regimes across all assets,
+            indicating that market risk is time-varying rather than constant.
+        </li>
+
+        <li>
+            <strong>Cross-Asset Relationships:</strong>
+            GOOGL and QQQ show the strongest return correlation among the selected assets,
+            while BTCUSD and ETHUSD exhibit a moderate positive relationship.
+            Correlations between equities and cryptocurrencies remain relatively low,
+            suggesting potential diversification benefits across asset classes.
+        </li>
+
+        <li>
+            <strong>Forecasting Implications:</strong>
+            The EDA suggests that forecasting features should be sensitive to the
+            characteristics of each asset rather than applied uniformly.
+            Trend and momentum-based features may provide more stable information for
+            GOOGL and QQQ, while rolling volatility and volatility regime indicators may
+            be particularly important for TSLA, BTCUSD, and ETHUSD.
+            Differences in cross-asset correlation also suggest that market-relative
+            features may have different predictive value across assets.
+        </li>
+    </ul>
+
+</div>
+
+
+
+<!-- ====================================================== -->
+<!-- 5. Financial Feature Engineering -->
+<!-- ====================================================== -->
+
+<h2>5. Financial Feature Engineering</h2>
+
+
+<!-- ====================================================== -->
+<!-- 6. Multi-Horizon Target Construction -->
+<!-- ====================================================== -->
+
+<h2>6. Multi-Horizon Target Construction</h2>
+
+
+<!-- ====================================================== -->
+<!-- 7. ARIMA Forecasting -->
+<!-- ====================================================== -->
+
+<h2>7. ARIMA Forecasting</h2>
+
+
+<!-- ====================================================== -->
+<!-- 8. Random Forest Regression -->
+<!-- ====================================================== -->
+
+<h2>8. Random Forest Regression</h2>
+
+
+<!-- ====================================================== -->
+<!-- 9. Model Evaluation and Comparison -->
+<!-- ====================================================== -->
+
+<h2>9. Model Evaluation and Comparison</h2>
+
+
+<!-- ====================================================== -->
+<!-- 10. Volatility Regime Analysis -->
+<!-- ====================================================== -->
+
+<h2>10. Volatility Regime Analysis</h2>
+
+
+<!-- ====================================================== -->
+<!-- 11. Monte Carlo Simulation -->
+<!-- ====================================================== -->
+
+<h2>11. Monte Carlo Simulation</h2>
+
+
+<!-- ====================================================== -->
+<!-- 12. Cross-Asset Comparison -->
+<!-- ====================================================== -->
+
+<h2>12. Cross-Asset Comparison</h2>
+
+
+<!-- ====================================================== -->
+<!-- 13. Final Price Forecasts -->
+<!-- ====================================================== -->
+
+<h2>13. Final Price Forecasts</h2>
+
+
+<!-- ====================================================== -->
+<!-- 14. Limitations -->
+<!-- ====================================================== -->
+
+<h2>14. Limitations</h2>
+
+
+<!-- ====================================================== -->
+<!-- 15. Conclusion -->
+<!-- ====================================================== -->
+
+<h2>15. Conclusion</h2>
