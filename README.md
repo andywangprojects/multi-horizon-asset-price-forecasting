@@ -1,5 +1,3 @@
-# Multi-Horizon Asset Price Forecasting
-
 **Task 1000 — Predictive Analytics: Stocks & Crypto**
 
 A cross-asset forecasting project that compares traditional time-series modelling
@@ -111,8 +109,10 @@ Cross-Asset Comparison
         ↓
 Final Multi-Horizon Forecasts
 
+## Repository Structure
 
-Repository Structure
+
+```text
 multi-horizon-asset-price-forecasting/
 │
 ├── data/
@@ -140,3 +140,4 @@ multi-horizon-asset-price-forecasting/
 ├── README.md
 ├── requirements.txt
 └── .gitignore
+```
