@@ -1,0 +1,8 @@
+Asset,Model,Horizon,Split_Date,Train_Samples,Test_Samples,MAE_%,RMSE_%,R2,Directional_Accuracy_%,Baseline_MAE_%,Baseline_RMSE_%,MAE_Improvement_pp,RMSE_Improvement_pp,Status
+TSLA,Random Forest,30D,2023-05-19,3163.0,797.0,14.5,19.05,-0.297,50.82,12.54,16.91,-1.96,-2.14,
+TSLA,Random Forest,3M,2023-04-03,3090.0,788.0,26.94,33.77,-0.305,52.41,23.24,31.0,-3.69,-2.77,
+TSLA,Random Forest,6M,2023-01-23,2976.0,776.0,40.8,50.35,-0.746,57.35,31.58,41.62,-9.22,-8.73,
+TSLA,Random Forest,1Y,2022-08-26,2750.0,751.0,93.86,120.93,-10.147,73.77,36.47,47.48,-57.39,-73.45,
+TSLA,Random Forest,3Y,2021-01-26,1848.0,651.0,322.82,369.64,-26.929,63.44,54.05,81.21,-268.77,-288.44,
+TSLA,Random Forest,5Y,2019-06-21,942.0,550.0,465.43,594.55,-0.277,100.0,532.43,748.53,67.01,153.98,
+TSLA,Random Forest,10Y,,,,,,,,,,,,Insufficient historical data

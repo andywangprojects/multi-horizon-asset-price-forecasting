@@ -1,0 +1,8 @@
+Asset,Model,Horizon,Split_Date,Train_Samples,Test_Samples,MAE_%,RMSE_%,R2,Directional_Accuracy_%,Baseline_MAE_%,Baseline_RMSE_%,MAE_Improvement_pp,RMSE_Improvement_pp,Status
+GOOGL,Random Forest,30D,2022-03-17,4344.0,1092.0,7.25,9.13,-0.032,57.69,7.35,9.25,0.1,0.12,
+GOOGL,Random Forest,3M,2022-01-28,4269.0,1083.0,14.5,18.05,-0.159,58.26,14.69,18.24,0.19,0.18,
+GOOGL,Random Forest,6M,2021-11-17,4154.0,1071.0,21.46,28.24,-0.12,67.69,23.02,30.41,1.56,2.17,
+GOOGL,Random Forest,1Y,2021-06-25,3930.0,1046.0,34.24,43.19,-0.114,71.22,40.5,50.36,6.26,7.17,
+GOOGL,Random Forest,3Y,2019-11-21,3027.0,946.0,53.98,80.06,-0.181,100.0,87.98,114.76,34.0,34.69,
+GOOGL,Random Forest,5Y,2018-04-19,2121.0,845.0,53.91,66.98,-1.545,100.0,173.16,178.18,119.25,111.2,
+GOOGL,Random Forest,10Y,,,,,,,,,,,,Insufficient historical data
