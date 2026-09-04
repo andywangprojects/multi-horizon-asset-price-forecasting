@@ -1,0 +1,4 @@
+Asset,Model,Horizon,Samples,MAE_%,RMSE_%,R2,Directional_Accuracy_%,Baseline_MAE_%,Baseline_RMSE_%,MAE_Improvement_pp,RMSE_Improvement_pp
+TSLA,ARIMA,30D,791,12.34,16.63,-0.018,42.1,12.34,16.63,0.0,0.0
+TSLA,ARIMA,3M,746,22.03,29.8,-0.064,40.75,22.03,29.81,0.01,0.0
+TSLA,ARIMA,6M,684,31.2,42.07,-0.132,40.06,31.2,42.07,-0.0,0.0
