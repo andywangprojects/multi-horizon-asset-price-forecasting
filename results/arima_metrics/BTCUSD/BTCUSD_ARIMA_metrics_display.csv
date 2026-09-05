@@ -1,0 +1,4 @@
+Asset,Model,Horizon,Samples,MAE_%,RMSE_%,R2,Directional_Accuracy_%,Baseline_MAE_%,Baseline_RMSE_%,MAE_Improvement_pp,RMSE_Improvement_pp
+BTCUSD,ARIMA,30D,812,11.7,15.21,-0.056,47.04,11.16,15.19,-0.54,-0.02
+BTCUSD,ARIMA,3M,768,24.31,30.63,-0.137,49.48,24.02,30.65,-0.29,0.01
+BTCUSD,ARIMA,6M,705,40.28,52.83,-0.281,53.48,40.86,52.99,0.59,0.16

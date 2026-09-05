@@ -1,0 +1,4 @@
+Asset,Model,Horizon,Samples,MAE_%,RMSE_%,R2,Directional_Accuracy_%,Baseline_MAE_%,Baseline_RMSE_%,MAE_Improvement_pp,RMSE_Improvement_pp
+GOOGL,ARIMA,30D,1086,7.34,9.25,-0.063,43.55,7.34,9.25,0.0,0.0
+GOOGL,ARIMA,3M,1044,14.65,18.31,-0.239,42.24,14.64,18.3,-0.01,-0.01
+GOOGL,ARIMA,6M,983,23.35,31.18,-0.469,44.05,23.35,31.18,0.0,0.0

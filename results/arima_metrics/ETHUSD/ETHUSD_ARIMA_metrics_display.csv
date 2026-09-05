@@ -1,0 +1,4 @@
+Asset,Model,Horizon,Samples,MAE_%,RMSE_%,R2,Directional_Accuracy_%,Baseline_MAE_%,Baseline_RMSE_%,MAE_Improvement_pp,RMSE_Improvement_pp
+ETHUSD,ARIMA,30D,778,16.37,21.6,0.0,50.26,16.37,21.61,0.0,0.0
+ETHUSD,ARIMA,3M,716,34.6,41.94,-0.001,49.72,34.6,41.95,-0.0,0.0
+ETHUSD,ARIMA,6M,627,39.22,53.32,-0.0,48.17,39.22,53.32,-0.0,-0.0
