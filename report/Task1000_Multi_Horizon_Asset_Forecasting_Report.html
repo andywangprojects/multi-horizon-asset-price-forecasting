@@ -7,82 +7,110 @@
 
     <title>Task 1000: Multi-Horizon Asset Price Forecasting</title>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 1100px;
-            margin: 40px auto;
-            padding: 0 30px;
-            line-height: 1.6;
-            color: #d8d8d8;
-            background-color: #181818;
-        }
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 0 30px;
+        line-height: 1.6;
+        color: #d8d8d8;
+        background-color: #181818;
+    }
 
-        h1 {
-            margin-bottom: 5px;
-            color: #f5f5f5;
-        }
+    h1 {
+        margin-bottom: 5px;
+        color: #f5f5f5;
+    }
 
-        h2 {
-            margin-top: 45px;
-            border-bottom: 1px solid #3a3a3a;
-            padding-bottom: 8px;
-            color: #f0f0f0;
-        }
+    h2 {
+        margin-top: 45px;
+        border-bottom: 1px solid #3a3a3a;
+        padding-bottom: 8px;
+        color: #f0f0f0;
+    }
 
-        h3 {
-            margin-top: 30px;
-            color: #e8e8e8;
-        }
+    h3 {
+        margin-top: 30px;
+        color: #e8e8e8;
+    }
 
-        h4,
-        h5 {
-            margin-bottom: 5px;
-            color: #dddddd;
-        }
+    h4,
+    h5 {
+        margin-bottom: 5px;
+        color: #dddddd;
+    }
 
-        p,
-        li {
-            color: #cccccc;
-        }
+    p,
+    li {
+        color: #cccccc;
+    }
 
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 20px auto 30px auto;
-            border-radius: 6px;
-        }
+    img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 20px auto 30px auto;
+        border-radius: 6px;
+    }
 
-        .figure-group {
-            margin-bottom: 40px;
-        }
+    .figure-group {
+        margin-bottom: 40px;
+    }
 
-        .analysis-box {
-            margin: 15px 0 30px 0;
-            padding: 15px 20px;
-            background-color: #232323;
-            border-left: 4px solid #7a7a7a;
-            border-radius: 6px;
-        }
+    .analysis-box {
+        margin: 15px 0 30px 0;
+        padding: 15px 20px;
+        background-color: #232323;
+        border-left: 4px solid #7a7a7a;
+        border-radius: 6px;
+    }
 
-        .note {
-            color: #aaaaaa;
-            font-style: italic;
-        }
+    .note {
+        color: #aaaaaa;
+        font-style: italic;
+    }
 
-        a {
-            color: #8ab4f8;
-        }
+    a {
+        color: #8ab4f8;
+    }
 
-        footer {
-            margin-top: 60px;
-            padding-top: 20px;
-            border-top: 1px solid #3a3a3a;
-            color: #999999;
-            font-size: 14px;
-        }
-    </style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0 30px 0;
+    }
+
+    th,
+    td {
+        padding: 12px 14px;
+        border-bottom: 1px solid #3a3a3a;
+        text-align: left;
+    }
+
+    th {
+        background-color: #232323;
+        color: #f0f0f0;
+        font-weight: 600;
+    }
+
+    td {
+        color: #cccccc;
+    }
+
+    tr:hover {
+        background-color: #202020;
+    }
+
+    footer {
+        margin-top: 60px;
+        padding-top: 20px;
+        border-top: 1px solid #3a3a3a;
+        color: #999999;
+        font-size: 14px;
+    }
+</style>
+    
 </head>
 
 
@@ -156,17 +184,21 @@
 </p>
 
 <ul>
-    <li>Exploratory Data Analysis</li>
-    <li>Financial Feature Engineering</li>
-    <li>Multi-Horizon Target Construction</li>
-    <li>ARIMA Forecasting</li>
-    <li>Random Forest Regression</li>
-    <li>Model Evaluation and Comparison</li>
-    <li>Volatility Regime Analysis</li>
-    <li>Monte Carlo Simulation</li>
-    <li>Cross-Asset Comparison</li>
-    <li>Final Multi-Horizon Price Forecasts</li>
-    <li>Limitations and Conclusion</li>
+    
+Historical Data
+      ↓
+EDA
+      ↓
+Feature Engineering
+      ↓
+Multi-Horizon Targets
+      ↓
+Random Forest + ARIMA
+      ↓
+Out-of-Sample Evaluation
+      ↓
+Cross-Asset Comparison
+    
 </ul>
 
 
@@ -808,79 +840,643 @@
 </div>
 
 
-
 <!-- ====================================================== -->
-<!-- 5. Financial Feature Engineering -->
-<!-- ====================================================== -->
-
-<h2>5. Financial Feature Engineering</h2>
-
-
-<!-- ====================================================== -->
-<!-- 6. Multi-Horizon Target Construction -->
+<!-- 5. Forecasting Indicators and Methodology -->
 <!-- ====================================================== -->
 
-<h2>6. Multi-Horizon Target Construction</h2>
+<h2>5. Forecasting Indicators and Methodology</h2>
+
+<p>
+    Following the exploratory analysis, a set of financial indicators is constructed
+    to capture recent return behaviour, momentum, trend conditions, volatility, and
+    market-relative performance.
+</p>
+
+<p>
+    These indicators are used as explanatory features in the Random Forest model,
+    while ARIMA provides a separate univariate time-series benchmark based primarily
+    on the historical price dynamics of each asset.
+</p>
+
+<p>
+    This section introduces the purpose of each forecasting indicator, explains how
+    future return targets are constructed across multiple horizons, and defines the
+    evaluation metrics used to assess model performance.
+</p>
+
+    
+<!-- ====================================================== -->
+<!-- 5.1 Daily Return -->
+<!-- ====================================================== -->
+
+<h3>5.1 Daily Return</h3>
+
+<p>
+    Daily return measures the percentage change in an asset's closing price from one
+    observation to the next and provides the most basic measure of short-term price movement.
+</p>
+
+<div class="analysis-box">
+
+    <p>
+        <strong>Formula:</strong>
+    </p>
+
+    <p>
+        Daily Return = (Current Close / Previous Close) - 1
+    </p>
+
+</div>
+
+
+<p>
+    Daily return is included as a forecasting feature because recent price movements may
+    contain information about short-term continuation, reversal, or changing market conditions.
+    However, individual daily returns are highly noisy and are therefore interpreted together
+    with momentum, trend, volatility, and market-relative indicators rather than being used
+    as a standalone forecasting signal.
+</p>
+
+<p>
+    The Random Forest model uses simple percentage returns, while the ARIMA framework uses
+    log prices and first-differenced log returns for time-series stationarity analysis.
+    This distinction reflects the different roles of returns in the two forecasting approaches.
+</p>
+
+    
+<!-- ====================================================== -->
+<!-- 5.2 Momentum Indicators -->
+<!-- ====================================================== -->
+
+    
+<h3>5.2 Momentum Indicators</h3>
+
+<p>
+    Momentum indicators measure the cumulative price change over different historical
+    lookback windows. Unlike daily return, which captures only the most recent
+    one-period movement, momentum describes whether a broader short- or medium-term
+    price trend has developed.
+</p>
+
+<div class="analysis-box">
+
+    <p>
+        <strong>Formula:</strong>
+    </p>
+
+    <p>
+        Momentum(n) = (Current Price / Price n observations ago) - 1
+    </p>
+
+</div>
+
+<table>
+    <tr>
+        <th>Indicator</th>
+        <th>Lookback</th>
+        <th>Purpose</th>
+    </tr>
+
+    <tr>
+        <td>Momentum 5D</td>
+        <td>5 observations</td>
+        <td>Captures very short-term price direction.</td>
+    </tr>
+
+    <tr>
+        <td>Momentum 20D</td>
+        <td>20 observations</td>
+        <td>Measures a broader short-term trend.</td>
+    </tr>
+
+    <tr>
+        <td>Momentum 60D</td>
+        <td>60 observations</td>
+        <td>Captures more persistent medium-term price behaviour.</td>
+    </tr>
+</table>
+
+<p>
+    Using multiple momentum horizons allows the model to distinguish recent price
+    movements from more persistent trends. For example, positive 60-day momentum
+    combined with negative 5-day momentum may indicate a short-term correction within
+    a broader upward trend.
+</p>
+
+<p>
+    Momentum indicators are included because recent trends may persist when market
+    information is incorporated gradually into prices. However, strong momentum can
+    also indicate that an asset has become temporarily overextended and may subsequently
+    experience mean reversion. Momentum is therefore interpreted together with
+    moving-average, volatility, and market-relative features rather than as a standalone
+    trading signal.
+</p>
+
+    
+<!-- ====================================================== -->
+<!-- 5.3 Moving-Average / Mean-Reversion Indicators -->
+<!-- ====================================================== -->
+
+<h3>5.3 Moving-Average and Mean-Reversion Indicators</h3>
+
+<p>
+    Moving-average indicators compare the current asset price with its recent average
+    price level. They are used to assess whether the asset is trading close to, above,
+    or below its recent trend.
+</p>
+
+<div class="analysis-box">
+
+    <p>
+        <strong>Formula:</strong>
+    </p>
+
+    <p>
+        Price-to-MA(n) = Current Price / n-period Moving Average
+    </p>
+
+</div>
+
+<table>
+    <tr>
+        <th>Indicator</th>
+        <th>Reference Window</th>
+        <th>Purpose</th>
+    </tr>
+
+    <tr>
+        <td>Price-to-MA20</td>
+        <td>20 observations</td>
+        <td>Measures the current price relative to a shorter-term average level.</td>
+    </tr>
+
+    <tr>
+        <td>Price-to-MA60</td>
+        <td>60 observations</td>
+        <td>Measures the current price relative to a broader medium-term trend.</td>
+    </tr>
+</table>
+
+<p>
+    A value above 1 indicates that the current price is above its recent average,
+    while a value below 1 indicates that it is trading below that average. This can
+    contain information about both trend continuation and potential mean reversion.
+</p>
+
+<p>
+    For example, a price moderately above its moving average may indicate an established
+    upward trend, while an unusually large deviation from the recent average may suggest
+    that the asset has become temporarily overextended and could subsequently revert
+    toward its historical mean.
+</p>
+
+<p>
+    These indicators complement momentum features because momentum measures the
+    cumulative price change over a historical window, whereas Price-to-MA measures the
+    current price's position relative to the average level observed during that window.
+    Together, they provide the Random Forest model with information about both trend
+    direction and the degree of price deviation.
+</p>
+
+<!-- ====================================================== -->
+<!-- 5.4 Rolling Volatility -->
+<!-- ====================================================== -->
+
+<h3>5.4 Rolling Volatility</h3>
+
+<p>
+    Rolling volatility measures the recent variability of asset returns and is used
+    to describe changes in short-term market risk. Unlike return and momentum
+    indicators, volatility does not directly measure price direction; instead, it
+    captures the magnitude and instability of recent price movements.
+</p>
+
+<div class="analysis-box">
+
+    <p>
+        <strong>Calculation:</strong>
+    </p>
+
+    <p>
+        Rolling Volatility (20D) = Standard Deviation of Daily Returns over the most
+        recent 20 observations
+    </p>
+
+</div>
+
+<p>
+    A rolling window is used because market volatility is not constant through time.
+    The exploratory analysis showed repeated transitions between relatively calm and
+    highly volatile periods across all selected assets, indicating clear volatility
+    clustering. Cryptocurrency assets and TSLA generally exhibited larger volatility
+    fluctuations than GOOGL and QQQ.
+</p>
+
+<p>
+    The 20-observation window provides the model with a measure of the current market
+    risk environment. For equity assets, this window corresponds approximately to one
+    trading month, while for cryptocurrency assets it represents 20 consecutive daily
+    observations.
+</p>
+
+<p>
+    Volatility can also change the interpretation of other forecasting indicators.
+    For example, strong positive momentum during a low-volatility period may represent
+    a relatively stable trend, whereas the same momentum during a high-volatility
+    period may reflect a more unstable market move. Rolling volatility is therefore
+    used together with momentum and moving-average indicators rather than as a
+    standalone directional signal.
+</p>
+
+<p class="note">
+    Rolling volatility is backward-looking and reflects only recently observed market
+    behaviour. A low recent volatility level does not guarantee that future volatility
+    will remain low, particularly when new information or market shocks occur.
+</p>
 
 
 <!-- ====================================================== -->
-<!-- 7. ARIMA Forecasting -->
+<!-- 5.5 Market-Relative Indicators -->
 <!-- ====================================================== -->
 
-<h2>7. ARIMA Forecasting</h2>
+<h3>5.5 Market-Relative Indicators</h3>
+
+<p>
+    For the equity assets, QQQ is used as a growth-oriented market benchmark to provide
+    information about broader market conditions and relative stock performance.
+    These features are included for TSLA and GOOGL but not for BTCUSD or ETHUSD.
+</p>
+
+<table>
+    <tr>
+        <th>Indicator</th>
+        <th>Calculation</th>
+        <th>Purpose</th>
+    </tr>
+
+    <tr>
+        <td>QQQ Return</td>
+        <td>Daily percentage return of QQQ</td>
+        <td>Captures broader growth-equity market movement.</td>
+    </tr>
+
+    <tr>
+        <td>Excess Return vs QQQ</td>
+        <td>Asset Return - QQQ Return</td>
+        <td>Measures asset performance relative to the benchmark.</td>
+    </tr>
+</table>
+
+<p>
+    QQQ return provides market context. For example, a positive TSLA or GOOGL return
+    may have a different interpretation when the broader growth-equity market is also
+    rising than when the benchmark is declining.
+</p>
+
+<p>
+    Excess return helps distinguish market-driven price movements from relative
+    outperformance or underperformance. A large positive excess return indicates that
+    the asset has performed more strongly than QQQ during the same observation period.
+</p>
+
+<p>
+    These market-relative features are particularly relevant because the exploratory
+    analysis showed meaningful relationships between the equity assets and QQQ,
+    especially for GOOGL. However, QQQ is only a simplified market benchmark and does
+    not capture all macroeconomic, sector-specific, or company-specific influences on
+    equity returns.
+</p>
+
+<p class="note">
+    QQQ-relative features are not applied to BTCUSD and ETHUSD because the exploratory
+    analysis showed substantially weaker relationships between the equity and
+    cryptocurrency groups.
+</p>
+
+<!-- ====================================================== -->
+<!-- 5.6 Forecast Targets and Horizons -->
+<!-- ====================================================== -->
+
+<h3>5.6 Forecast Targets and Horizons</h3>
+
+<p>
+    The forecasting models are designed to predict cumulative future returns rather
+    than future prices directly. Using returns provides a standardized target across
+    assets with substantially different price levels and allows model errors to be
+    interpreted on a comparable percentage basis.
+</p>
+
+<div class="analysis-box">
+
+    <p>
+        <strong>Future Return Target:</strong>
+    </p>
+
+    <p>
+        Future Return(t,h) = Future Price(t,h) / Current Price(t) - 1
+    </p>
+
+    <p>
+        <strong>Price Reconstruction:</strong>
+    </p>
+
+    <p>
+        Predicted Future Price = Current Price × (1 + Predicted Future Return)
+    </p>
+
+</div>
+
+<h4>Forecast Horizons</h4>
+
+<table>
+    <tr>
+        <th>Model</th>
+        <th>Forecast Horizons</th>
+        <th>Role</th>
+    </tr>
+
+    <tr>
+        <td>Random Forest</td>
+        <td>30D, 3M, 6M, 1Y, 3Y, 5Y, 10Y</td>
+        <td>Tests feature-driven forecasting relationships across short and long horizons.</td>
+    </tr>
+
+    <tr>
+        <td>ARIMA</td>
+        <td>30D, 3M, 6M</td>
+        <td>Provides a traditional short- and medium-horizon time-series benchmark.</td>
+    </tr>
+</table>
+
+<h4>Calendar-Based Target Alignment</h4>
+
+<p>
+    Forecast horizons are defined using calendar time rather than fixed row counts.
+    For each observation, the target date is calculated by adding the required
+    calendar horizon to the current date. The nearest available market observation
+    on or after that target date is then used as the realized future price.
+</p>
+
+<p>
+    This approach is particularly important when comparing equities and
+    cryptocurrencies. Equity markets do not trade on weekends or market holidays,
+    while cryptocurrency markets operate continuously. A fixed observation shift
+    would therefore represent different calendar horizons across the two asset
+    classes.
+</p>
+
+<h4>Chronological Splitting and Leakage Prevention</h4>
+
+<p>
+    All forecasting models preserve chronological order so that historical
+    observations are used to predict later market outcomes. Random shuffling is
+    avoided because it could allow future market information to enter the training
+    sample.
+</p>
+
+<p>
+    Additional target purging is applied to the Random Forest training data.
+    A training observation is retained only when both its feature date and its
+    corresponding future target date occur before the train-test split. This prevents
+    future prices from the test period from being indirectly used during model
+    training.
+</p>
+
+<p class="note">
+    Longer forecasting horizons naturally produce fewer usable observations because
+    data near the end of the historical sample may not contain a sufficiently distant
+    realized future price. For very long horizons, insufficient historical coverage
+    may prevent leakage-safe model estimation altogether.
+</p>
+
+    
+<!-- ====================================================== -->
+<!-- 5.7 Forecasting Models -->
+<!-- ====================================================== -->
+
+<h3>5.7 Forecasting Models</h3>
+
+<p>
+    Two forecasting approaches are used to examine whether future asset returns can be
+    predicted from different forms of historical market information. Random Forest
+    provides a feature-driven machine learning model, while ARIMA serves as a traditional
+    univariate time-series benchmark.
+</p>
+
+
+<h4>Random Forest Regressor</h4>
+
+<p>
+    Random Forest combines multiple decision trees to learn potentially nonlinear
+    relationships between current financial indicators and future cumulative returns.
+    Each tree partitions the historical observations according to different combinations
+    of features, and the final prediction is obtained by averaging predictions across
+    the ensemble.
+</p>
+
+<p>
+    This structure is useful because financial indicators may interact in nonlinear
+    ways. For example, positive momentum may have a different forecasting implication
+    during a low-volatility trend than during a highly volatile and potentially
+    overextended market move.
+</p>
+
+<div class="analysis-box">
+
+    <p>
+        <strong>Random Forest Specification:</strong>
+    </p>
+
+    <p>
+        Number of Trees = 300<br>
+        Maximum Tree Depth = 8<br>
+        Minimum Samples per Leaf = 5
+    </p>
+
+</div>
+
+<p>
+    The specification is used as a controlled benchmark rather than an optimally tuned
+    model. Tree depth and minimum leaf size are restricted to reduce excessive model
+    complexity and overfitting.
+</p>
+
+
+<h4>ARIMA</h4>
+
+<p>
+    ARIMA models future price behaviour using the historical time-series dynamics of
+    each asset rather than the broader feature set used by Random Forest. The model is
+    represented as ARIMA(p,d,q), where p captures autoregressive dependence, d represents
+    the order of differencing required for stationarity, and q captures dependence on
+    previous forecast errors.
+</p>
+
+<p>
+    Log prices are first tested for stationarity using the Augmented Dickey-Fuller test.
+    When the price series is non-stationary but the first-differenced log-price series is
+    stationary, the integration order is set to d = 1. ACF and PACF analysis, together
+    with AIC and BIC model-selection criteria, are then used to identify reasonable
+    candidate specifications.
+</p>
+
+<p>
+    ARIMA forecasts are evaluated using a walk-forward framework. As the evaluation
+    period progresses, newly observed market information is added to the model history
+    and model parameters are periodically re-estimated. This approach more closely
+    represents a real-time forecasting process than generating all future forecasts
+    from a single historical endpoint.
+</p>
+
+
+<h4>Model Comparison</h4>
+
+<table>
+    <tr>
+        <th>Dimension</th>
+        <th>Random Forest</th>
+        <th>ARIMA</th>
+    </tr>
+
+    <tr>
+        <td>Model Type</td>
+        <td>Machine learning ensemble</td>
+        <td>Traditional time-series model</td>
+    </tr>
+
+    <tr>
+        <td>Main Input</td>
+        <td>Multiple financial indicators</td>
+        <td>Historical asset price series</td>
+    </tr>
+
+    <tr>
+        <td>Relationship</td>
+        <td>Nonlinear</td>
+        <td>Linear time-series dependence</td>
+    </tr>
+
+    <tr>
+        <td>Forecast Target</td>
+        <td>Future cumulative return</td>
+        <td>Future log price and reconstructed return</td>
+    </tr>
+
+    <tr>
+        <td>Forecast Horizons</td>
+        <td>30D, 3M, 6M, 1Y, 3Y, 5Y, 10Y</td>
+        <td>30D, 3M, 6M</td>
+    </tr>
+
+    <tr>
+        <td>Primary Role</td>
+        <td>Feature-driven forecasting model</td>
+        <td>Traditional benchmark model</td>
+    </tr>
+</table>
+
+<p>
+    Using both approaches allows the analysis to test whether a broader set of financial
+    indicators provides predictive information beyond the asset's own historical
+    time-series structure.
+</p>
 
 
 <!-- ====================================================== -->
-<!-- 8. Random Forest Regression -->
+<!-- 5.8 Evaluation Metrics -->
 <!-- ====================================================== -->
 
-<h2>8. Random Forest Regression</h2>
+<h3>5.8 Evaluation Metrics</h3>
+
+<p>
+    Forecast performance is evaluated using multiple metrics because no single measure
+    fully describes prediction quality. The evaluation considers forecast magnitude,
+    sensitivity to large errors, explanatory performance, directional accuracy, and
+    improvement relative to a simple no-change benchmark.
+</p>
+
+<table>
+    <tr>
+        <th>Metric</th>
+        <th>Purpose</th>
+        <th>Interpretation</th>
+    </tr>
+
+    <tr>
+        <td>MAE</td>
+        <td>Measures the average absolute difference between predicted and realized future returns.</td>
+        <td>Lower values indicate smaller average forecast errors.</td>
+    </tr>
+
+    <tr>
+        <td>RMSE</td>
+        <td>Measures forecast error while placing greater weight on large prediction mistakes.</td>
+        <td>Lower values indicate better performance, particularly when large errors matter.</td>
+    </tr>
+
+    <tr>
+        <td>R²</td>
+        <td>Compares squared forecast errors with a predictor based on the mean realized return.</td>
+        <td>Positive values indicate improvement over the mean-target comparator; negative values indicate worse performance.</td>
+    </tr>
+
+    <tr>
+        <td>Directional Accuracy</td>
+        <td>Measures how often the model correctly predicts whether the future return is positive or negative.</td>
+        <td>Higher values indicate better directional classification, but do not measure forecast magnitude.</td>
+    </tr>
+
+    <tr>
+        <td>Baseline Improvement</td>
+        <td>Measures the reduction in MAE or RMSE relative to a zero-return benchmark.</td>
+        <td>Positive values indicate that the forecasting model outperforms the baseline.</td>
+    </tr>
+</table>
 
 
-<!-- ====================================================== -->
-<!-- 9. Model Evaluation and Comparison -->
-<!-- ====================================================== -->
+<h4>Zero-Return Baseline</h4>
 
-<h2>9. Model Evaluation and Comparison</h2>
+<p>
+    A zero-return benchmark is used to determine whether each forecasting model adds
+    predictive value beyond a simple no-change assumption. The baseline always predicts
+    a future return of zero, implying that the future price is equal to the current price.
+</p>
 
+<div class="analysis-box">
 
-<!-- ====================================================== -->
-<!-- 10. Volatility Regime Analysis -->
-<!-- ====================================================== -->
+    <p>
+        <strong>Baseline Prediction:</strong>
+    </p>
 
-<h2>10. Volatility Regime Analysis</h2>
+    <p>
+        Predicted Future Return = 0
+    </p>
 
+    <p>
+        <strong>Error Improvement:</strong>
+    </p>
 
-<!-- ====================================================== -->
-<!-- 11. Monte Carlo Simulation -->
-<!-- ====================================================== -->
+    <p>
+        Improvement = Baseline Error - Model Error
+    </p>
 
-<h2>11. Monte Carlo Simulation</h2>
+    <p>
+        Positive Improvement → Model outperforms the baseline<br>
+        Negative Improvement → Model underperforms the baseline
+    </p>
 
+</div>
 
-<!-- ====================================================== -->
-<!-- 12. Cross-Asset Comparison -->
-<!-- ====================================================== -->
+<p>
+    MAE and RMSE are used as the primary measures of return-magnitude forecasting
+    accuracy. R² provides an additional comparison against a mean-return predictor,
+    while directional accuracy evaluates whether the model correctly identifies the
+    sign of future returns.
+</p>
 
-<h2>12. Cross-Asset Comparison</h2>
-
-
-<!-- ====================================================== -->
-<!-- 13. Final Price Forecasts -->
-<!-- ====================================================== -->
-
-<h2>13. Final Price Forecasts</h2>
-
-
-<!-- ====================================================== -->
-<!-- 14. Limitations -->
-<!-- ====================================================== -->
-
-<h2>14. Limitations</h2>
-
-
-<!-- ====================================================== -->
-<!-- 15. Conclusion -->
-<!-- ====================================================== -->
-
-<h2>15. Conclusion</h2>
+<p class="note">
+    Directional accuracy should not be interpreted independently of the return
+    distribution. If most observations within a forecast horizon have the same return
+    sign, a model may achieve high directional accuracy without providing meaningful
+    magnitude forecasting ability.
+</p>
